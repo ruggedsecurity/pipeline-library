@@ -19,6 +19,7 @@ def call() {
     try {
         publishEvent event: simpleEvent("$POM_GROUP:$POM_ARTIFACT:$POM_VERSION:$POM_PACKAGE"), verbose: true
     } catch (e) {
-        echo "Publishing event failed"
+        echo "Publishing event failed.  Check that plugins are installed and configured correctly."
+        throw e
     }
 }
