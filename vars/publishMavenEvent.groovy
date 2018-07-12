@@ -12,7 +12,8 @@ def call() {
         echo "Building Package=$POM_PACKAGE"
         echo "Building Group=$POM_GROUP"
     } catch (e) {
-        echo "cannot access pom.xml file"
+        echo "Cannot access pom.xml file"
+        throw e
     }
     
     try {
