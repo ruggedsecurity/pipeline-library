@@ -1,21 +1,23 @@
 def call() {
-    // create git envvars
-    println "Setting envvars to tag container"
-
-    sh 'git rev-parse HEAD > git_commit_id.txt'
+    echo "Publishing event for Maven build"
     try {
-        env.GIT_COMMIT_ID = readFile('git_commit_id.txt').trim()
-        env.GIT_SHA = env.GIT_COMMIT_ID.substring(0, 7)
+        def pom = readMavenPom file: 'pom.xml'
+        POM_VERSION = pom.version
+        POM_ARTIFACT = pom.artifactId
+        POM_GROUP = pom.groupId
+        POM_PACKAGE = pom.packaging
+        echo "Building $JOB_NAME"
+        echo "Building Version=$POM_VERSION"
+        echo "Building Artifact=$POM_ARTIFACT"
+        echo "Building Package=$POM_PACKAGE"
+        echo "Building Group=$POM_GROUP"
     } catch (e) {
-        error "${e}"
+        echo "cannot access pom.xml file"
     }
-    println "env.GIT_COMMIT_ID ==> ${env.GIT_COMMIT_ID}"
-
-    sh 'git config --get remote.origin.url> git_remote_origin_url.txt'
+    
     try {
-        env.GIT_REMOTE_URL = readFile('git_remote_origin_url.txt').trim()
+        publishEvent event: simpleEvent("$POM_GROUP:$POM_ARTIFACT:$POM_VERSION:$POM_PACKAGE"), verbose: true
     } catch (e) {
-        error "${e}"
+        echo "Publishing event failed"
     }
-    println "env.GIT_REMOTE_URL ==> ${env.GIT_REMOTE_URL}"
 }
