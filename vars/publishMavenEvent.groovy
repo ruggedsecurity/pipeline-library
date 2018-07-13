@@ -1,6 +1,5 @@
 def call() {
     echo "Publishing event for Maven build"
-    def jsonStr = ""
     try {
         def pom = readMavenPom file: 'pom.xml'
         POM_VERSION = pom.version
@@ -12,7 +11,7 @@ def call() {
         echo "Building Artifact=$POM_ARTIFACT"
         echo "Building Package=$POM_PACKAGE"
         echo "Building Group=$POM_GROUP"
-        jsonStr = """
+        JSONSTR = """
     {
         "event":"$POM_GROUP:$POM_ARTIFACT:$POM_VERSION:$POM_PACKAGE",
         "artifactId": "$POM_ARTIFACT",
@@ -27,7 +26,7 @@ def call() {
     }
     
     try {
-        publishEvent event: jsonEvent(jsonStr), verbose: true
+        publishEvent event: jsonEvent(JSONSTR), verbose: true
     } catch (e) {
         echo "Publishing event failed.  Check that plugins are installed and configured correctly."
         throw e
