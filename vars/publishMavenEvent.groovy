@@ -11,13 +11,22 @@ def call() {
         echo "Building Artifact=$POM_ARTIFACT"
         echo "Building Package=$POM_PACKAGE"
         echo "Building Group=$POM_GROUP"
+        def json="""
+    {
+        "event":"$POM_GROUP:$POM_ARTIFACT:$POM_VERSION:$POM_PACKAGE",
+        "artifactId": "$POM_ARTIFACT",
+        "groupId": "$POM_GROUP",
+        "version": "$POM_VERSION",
+        "package": "$POM_PACKAGE"
+    }
+    """
     } catch (e) {
         echo "Cannot access pom.xml file"
         throw e
     }
     
     try {
-        publishEvent event: simpleEvent("$POM_GROUP:$POM_ARTIFACT:$POM_VERSION:$POM_PACKAGE"), verbose: true
+        publishEvent event: jsonEvent(json), verbose: true
     } catch (e) {
         echo "Publishing event failed.  Check that plugins are installed and configured correctly."
         throw e
