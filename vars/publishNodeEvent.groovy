@@ -1,5 +1,5 @@
 def call() {
-    echo "Publishing event for Maven build"
+    echo "Publishing event for Node build"
     try {
         def json = readJSON file: 'package.json'
         VERSION = json['version']
