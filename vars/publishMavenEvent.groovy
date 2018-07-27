@@ -14,6 +14,7 @@ def call() {
         JSONSTR = """
     {
         "event":"$POM_GROUP:$POM_ARTIFACT:$POM_VERSION:$POM_PACKAGE",
+        "type": "PUB",
         "appName": "$POM_ARTIFACT",
         "artifactId": "$POM_ARTIFACT",
         "groupId": "$POM_GROUP",
