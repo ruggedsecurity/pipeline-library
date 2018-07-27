@@ -11,6 +11,7 @@ def call() {
     {
         "event":"$APP_NAME:$VERSION",
         "appName": "$APP_NAME",
+        "type": "PUB"
         "version": "$VERSION"
     }
     """
