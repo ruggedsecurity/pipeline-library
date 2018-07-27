@@ -1,7 +1,7 @@
 def call(hostName) {
     echo "Publishing security event for Scan Failure"
     try {
-        env.HOST_NAME = hostName
+        env.HOST_NAME = ${hostName}
        
         echo "Failed Test for $APP_NAME"
         JSONSTR = """
