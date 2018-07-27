@@ -11,8 +11,15 @@ def call(hostName) {
         }
         """
         publishEvent event: jsonEvent(JSONSTR), verbose: true
+        
     } catch (e) {
         echo "Publishing security event failed.  Check that plugins are installed and configured correctly."
+        throw e
+    }
+    try {
+        mail to: 'bmcconnell@cloudbees.com', subject: 'The Security Test failed :(', body: 'Security failed'
+    } catch (e) {
+        echo "Sending security event failed.  Check SMTP Settings."
         throw e
     }
 }
